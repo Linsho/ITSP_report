@@ -7,6 +7,7 @@ from jsonschema import validate
 from jsonschema.exceptions import ValidationError
 from jsonschema import FormatChecker
 import iso8601
+import traceback
 
 database = {}
 
@@ -33,12 +34,17 @@ class RequestHandler(BaseHTTPRequestHandler):
 
         try:
             if path_elements[0] == 'api':
+                if len(path_elements) < 2:
+                    raise NotFound
                 if path_elements[1] == 'v1':
+                    if len(path_elements) < 3:
+                        raise NotFound
                     if path_elements[2] == 'event':
-                        if len(path_elements) == 3:
-                            response = {"event": []}
+                        if len(path_elements) == 3 or \
+                           len(path_elements) == 4 and path_elements[3] == "":
+                            response = {"events": []}
                             for id, data in database.items():
-                                response["event"].append({
+                                response["events"].append({
                                     "id": id,
                                     "deadline": data["deadline"].isoformat(),
                                     "title": data["title"],
@@ -52,7 +58,9 @@ class RequestHandler(BaseHTTPRequestHandler):
                             response_body = json.dumps(response)
                             self.wfile.write(response_body.encode('utf-8'))
                             return
-                        elif len(path_elements) == 4:
+                        elif len(path_elements) == 4 or \
+                                len(path_elements) == 5 and \
+                                path_elements[4] == "":
                             id = int(path_elements[3])
                             if id not in database:
                                 raise BadRequest("invalid request id")
@@ -105,6 +113,8 @@ class RequestHandler(BaseHTTPRequestHandler):
             return
 
         except Exception as e:
+            print(e)
+            print(traceback.format_exc())
             self.send_response(500)
             self.end_headers()
             return
@@ -113,11 +123,19 @@ class RequestHandler(BaseHTTPRequestHandler):
         """POST handler."""
         parsed_path = urlparse(self.path)
         path_elements = parsed_path.path.split('/')[1:]
-
         try:
+            if len(path_elements) < 1:
+                raise NotFound
             if path_elements[0] == 'api':
+                if len(path_elements) < 2:
+                    raise NotFound
                 if path_elements[1] == 'v1':
+                    if len(path_elements) < 3:
+                        raise NotFound
                     if path_elements[2] == 'event':
+                        if 'content-type' not in self.headers:
+                            raise BadRequest("request is not contain \
+content-type")
                         ctype, pdict = cgi.parse_header(
                             self.headers.get('content-type'))
                         if ctype != 'application/json':
@@ -200,6 +218,8 @@ application/json")
             self.wfile.write(response_body.encode('utf-8'))
             return
         except Exception as e:
+            print(e)
+            print(traceback.format_exc())
             self.send_response(500)
             self.end_headers()
             return

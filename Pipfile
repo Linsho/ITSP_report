@@ -9,6 +9,8 @@ verify_ssl = true
 iso8601 = "*"
 jsonschema = "*"
 strict-rfc3339 = "*"
+pytest = "*"
+requests = "*"
 
 [requires]
 python_version = "3.7"
