@@ -1,8 +1,11 @@
 version: 2
 jobs:
   build:
+    working_director: ~
     docker:
       - image: circleci/python:3.6.4
+        environment:
+          PIPENV_VENV_IN_PROJECT: true
     steps:
       - checkout
       - run:
@@ -10,11 +13,6 @@ jobs:
           sudo pip install pipenv
           pipenv install
       - run:
-        command: pipenv run python main.py
-        background: true
-      - run:
         command: |
-          sleep 5
-      - run:
-        command: |
-          pipenv rum py.test test.py
+        pipenv run py.test test.py
+        
