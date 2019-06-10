@@ -6,6 +6,9 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
+iso8601 = "*"
+jsonschema = "*"
+strict-rfc3339 = "*"
 
 [requires]
 python_version = "3.7"
