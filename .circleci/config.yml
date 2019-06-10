@@ -10,8 +10,8 @@ jobs:
       - run: sudo pip install pipenv
       - run: pipenv install
       - run:
-        name: Start server
-        command: pipenv run python main.py
-        background: true
+          name: Start server
+          command: pipenv run python main.py
+          background: true
       - run: sleep 5
       - run: pipenv run py.test test.py
