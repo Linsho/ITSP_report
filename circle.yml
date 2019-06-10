@@ -14,5 +14,4 @@ jobs:
           pipenv install
       - run:
         command: |
-        pipenv run py.test test.py
-        
+          pipenv run py.test test.py
