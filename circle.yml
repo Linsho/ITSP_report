@@ -1,6 +1,17 @@
-test:
-  override:
-    - pwd ~
-    - ifconfig
-    - echo HelloWorld
-    - exit 0
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/python:3.6.4
+    steps:
+      - run:
+        command: |
+        sudo pip install pipenv
+        pipenv install
+      - run:
+        command: pipenv run python main.py
+        background: true
+      - run:
+        command: sleep 5
+      - run:
+        command: pipenv rum py.test test.py
