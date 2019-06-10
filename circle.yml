@@ -1,16 +1,6 @@
-machine:
-  python:
-    version: 3.6.0
-
-dependencies:
-  pre:
-    - pip install pipenv
-    - pipenv install
-    - pipenv run python main.py runserver:
-        background: true
-    - sleep 5
-
-  test:
-    override:
-      - pipenv run py.test test.py
-      - exit 0
+test:
+  override:
+    - pwd ~
+    - ifconfig
+    - echo HelloWorld
+    - exit 0
