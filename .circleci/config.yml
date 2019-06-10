@@ -1,0 +1,17 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: python:3
+        environment:
+          PIPENV_VENV_IN_PROJECT: true
+    steps:
+      - checkout
+      - run: sudo pip install pipenv
+      - run: pipenv install
+      - run:
+        name: Start server
+        command: pipenv run python main.py
+        background: true
+      - run: sleep 5
+      - run: pipenv run py.test test.py
