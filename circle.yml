@@ -6,8 +6,6 @@ machine:
     pre:
       - pip install pipenv
       - pipenv install
-      - pipenv run python main.py runserver:
-          background: true
       - sleep 5
 
     test:
