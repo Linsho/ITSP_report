@@ -10,8 +10,7 @@ jobs:
           sudo pip install pipenv
           pipenv install
       - run:
-        command: |
-          pipenv run python main.py
+        command: pipenv run python main.py
         background: true
       - run:
         command: |
