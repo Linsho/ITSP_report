@@ -9,9 +9,7 @@ jobs:
     steps:
       - checkout
       - run:
-        command: |
-          sudo pip install pipenv
-          pipenv install
+        command: sudo pip install pipen
+        command: pipenv install
       - run:
-        command: |
-          pipenv run py.test test.py
+        command: pipenv run py.test test.py
