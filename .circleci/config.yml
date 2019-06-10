@@ -7,6 +7,7 @@ jobs:
           PIPENV_VENV_IN_PROJECT: true
     steps:
       - checkout
+      - run: pip install pipenv
       - run: pipenv install
       - run:
           name: Start server
